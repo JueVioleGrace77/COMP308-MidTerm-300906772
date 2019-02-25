@@ -1,3 +1,9 @@
+/*
+Author Name: Harvey Cabrias
+Student ID: 300906772
+COMP308-2019-MidTerm-300906772
+*/
+
 // modules required for routing
 let express = require('express');
 let router = express.Router();

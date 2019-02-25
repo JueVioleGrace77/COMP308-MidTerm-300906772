@@ -1,3 +1,9 @@
+/*
+Author Name: Harvey Cabrias
+Student ID: 300906772
+COMP308-2019-MidTerm-300906772
+*/
+
 // modules required for routing
 let express = require('express');
 let router = express.Router();
@@ -34,6 +40,7 @@ router.get('/add', (req, res, next) => {
 
 // POST process the Book Details page and create a new Book - CREATE
 router.post('/add', (req, res, next) => {
+  //input entity into book schema
   let addBook = book({
     Title: req.body.title,
     Author: req.body.author,
@@ -42,6 +49,7 @@ router.post('/add', (req, res, next) => {
     Genre: req.body.genre
   });
 
+  //Add new content to the database and redericted to the book page
   book.create(addBook, (err, val) =>{
     if(err){
       res.end(err);
@@ -54,13 +62,16 @@ router.post('/add', (req, res, next) => {
 
 // GET the Book Details page in order to edit an existing Book
 router.get("/edit/:id", (req, res, next) => {
+  //declare and initialized id 
   let id = req.params.id;
+  //find book in the collection by ID
   book.findById({ _id: id }, (err, bookObject) => {
     if (err) {
       res.end(err);
 
       return console.error(err);
     } else {
+      //Render the book detail by of the id entity
       res.render("books/details", {
         title: "Edit Books",
         books: bookObject
@@ -71,7 +82,9 @@ router.get("/edit/:id", (req, res, next) => {
 
 // POST - process the information passed from the details form and update the document
 router.post("/edit/:id", (req, res, next) => {
+  //declare and initialized id
   let id = req.params.id;
+  //input entity into book schema
   let updateBook = book({
     _id: id,
     Title: req.body.title,
@@ -81,6 +94,7 @@ router.post("/edit/:id", (req, res, next) => {
     Genre: req.body.genre
   });
 
+  //update book by id
   book.update({ _id: id }, updateBook, (err, books) => {
     if (err) {
       console.log(err);
@@ -93,7 +107,9 @@ router.post("/edit/:id", (req, res, next) => {
 
 // GET - process the delete by user id
 router.get('/delete/:id', (req, res, next) => {
+  //declare and initialized id
   let id = req.params.id;
+  //remove book by id
   book.remove({ _id: id }, (err, val) => {
     if (err) {
       res.end(err);
